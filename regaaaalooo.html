@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Regalo para la mejor novia</title>
+<style>
+  body {
+    margin: 0;
+    background: #fff0f6;
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    padding-top: 50px;
+    user-select: none;
+  }
+  #message {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #b3003b;
+    font-weight: bold;
+  }
+#buttons {
+    margin-bottom: 40px;
+  }
+  button {
+    font-size: 18px;
+    padding: 10px 25px;
+    margin: 0 15px;
+    border-radius: 10px;
+    border: 2px solid #b3003b;
+    background-color: #ffccd5;
+    color: #80002b;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  button:focus {
+    outline: none;
+  }
+  #loveMessage {
+    font-size: 22px;
+    color: #b3003b;
+    font-weight: 600;
+    margin-top: 20px;
+  }
+.emoji {
+    position: fixed;
+    font-size: 32px;
+    pointer-events: none;
+    user-select: none;
+    animation: fall 4s linear forwards;
+  }
+  @keyframes fall {
+    to {
+      transform: translateY(100vh);
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div id="message">¿Te quieres casar conmigo?</div>
+<div id="buttons">
+  <button id="yesBtn">Sí</button>
+  <button id="noBtn">No</button>
+</div>
+<div id="loveMessage"></div>
+
+<script>
+// Lluvia de corazones y rosas
+function createEmoji() {
+  const emojis = ['❤️', '🌹'];
+  const emoji = document.createElement('div');
+  emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+  emoji.className = 'emoji';
+  emoji.style.left = Math.random() * window.innerWidth + 'px';
+  emoji.style.top = '-50px';
+  emoji.style.fontSize = (20 + Math.random() * 20) + 'px';
+  emoji.style.animationDuration = (3 + Math.random() * 3) + 's';
+  document.body.appendChild(emoji);
+  setTimeout(() => emoji.remove(), 4000);
+}
+
+// Funcion para lluvia continua (al dar "Sí")
+let rainInterval = null;
+
+// Botones
+const yesBtn = document.getElementById('yesBtn');
+const noBtn = document.getElementById('noBtn');
+const loveMessage = document.getElementById('loveMessage');
+
+yesBtn.addEventListener('click', () => {
+  loveMessage.textContent = 'Te amo demasiado, eres la mejor persona del mundo';
+  if (rainInterval) clearInterval(rainInterval);
+  rainInterval = setInterval(() => {
+    createEmoji();
+    createEmoji();
+    createEmoji();
+  }, 200);
+});
+
+let noClicks = 0;
+noBtn.addEventListener('click', () => {
+  noClicks++;
+  const sizeReduction = 10;  // px menos cada click
+  const currentSize = parseFloat(window.getComputedStyle(noBtn).fontSize);
+  const newSize = currentSize - sizeReduction;
+
+  // Mover a posición aleatoria
+  const maxX = window.innerWidth - noBtn.offsetWidth;
+  const maxY = window.innerHeight - noBtn.offsetHeight;
+  const randomX = Math.random() * maxX;
+  const randomY = Math.random() * maxY;
+  noBtn.style.position = 'fixed';
+  noBtn.style.left = randomX + 'px';
+  noBtn.style.top = randomY + 'px';
+
+  // Reducir tamaño
+  if (newSize > 0) {
+    noBtn.style.fontSize = newSize + 'px';
+    noBtn.style.padding = (newSize / 1.5) + 'px ' + (newSize / 3) + 'px';
+  } else {
+    noBtn.style.display = 'none';
+  }
+});
+</script>
+
+</body>
+</html>
